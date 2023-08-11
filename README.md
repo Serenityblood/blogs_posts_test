@@ -50,7 +50,7 @@ docker-compose exec web python manage.py add_data
     'access': token,
 }
 ```
-Header - Bearer
+* Header - Bearer
 3. http://127.0.0.1:8000/api/posts/
 Получение, создание постов
 >Request sample:
