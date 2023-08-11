@@ -63,8 +63,8 @@ Header - Bearer
 4. http://127.0.0.1:8000/api/posts/{id}/read/
 Пометить пост как прочитанный
 
-4. http://127.0.0.1:8000/api/blogs/{id}/subscribe/
+5. http://127.0.0.1:8000/api/blogs/{id}/subscribe/
 Подписаться на блог с {id}
 
-3. http://127.0.0.1:8000/api/users/postsfeed/
+6. http://127.0.0.1:8000/api/users/postsfeed/
 Генерация ленты постов на основе подписок пользователя с пагинацией по 10 постов
