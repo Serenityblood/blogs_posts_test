@@ -87,28 +87,27 @@ class PostViewSet(viewsets.ModelViewSet):
 
 class SubscribeView(views.APIView):
     def post(self, request, id):
-        if not request.user:
+        if not request.user.is_authenticated:
             return Response(
                 {'message': 'Нужна аутентификация'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        subscription = Subscription.objects.get_or_create(
-            user=request.user, blog=get_object_or_404(Blog, id=id)
-        )
         serializer = SubscriptionSerializer(
-            subscription, context={'request': request}
+            data={'user': request.user.id, 'blog': id}
         )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, id):
-        if not request.user:
+        if not request.user.is_authenticated:
             return Response(
                 {'message': 'Нужна аутентификация'},
                 status=status.HTTP_403_FORBIDDEN
             )
         get_object_or_404(
             Subscription,
-            user=request.user,
+            user=request.user.id,
             blog=get_object_or_404(Blog, id=id)
         ).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -116,28 +115,28 @@ class SubscribeView(views.APIView):
 
 class ReadView(views.APIView):
     def post(self, request, id):
-        if not request.user:
+        if not request.user.is_authenticated:
             return Response(
                 {'message': 'Нужна аутентификация'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        read = Read.objects.get_or_create(
-            user=request.user, post=get_object_or_404(Post, id=id)
-        )
+
         serializer = ReadSerializer(
-            read, context={'request': request}
+            data={'user': request.user.id, 'post': id}
         )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, id):
-        if not request.user:
+        if not request.user.is_authenticated:
             return Response(
                 {'message': 'Нужна аутентификация'},
                 status=status.HTTP_403_FORBIDDEN
             )
         get_object_or_404(
             Read,
-            user=request.user,
+            user=request.user.id,
             post=get_object_or_404(Post, id=id)
         ).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

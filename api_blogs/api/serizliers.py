@@ -31,7 +31,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('title', 'text', 'pub_date', 'blog', 'is_read')
+        fields = ('title', 'text', 'pub_date', 'is_read')
+        read_only_fields = ('blog',)
 
     def get_is_read(self, post):
         request = self.context.get('request')
@@ -43,18 +44,20 @@ class PostSerializer(serializers.ModelSerializer):
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     blog = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
-        model = Blog
+        model = Subscription
         fields = ('id', 'user', 'blog')
 
 
 class ReadSerializer(serializers.ModelSerializer):
     post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Read
-        fields = ('user', 'post')
+        fields = ('id', 'user', 'post')
 
 
 class BlogSerializer(serializers.ModelSerializer):

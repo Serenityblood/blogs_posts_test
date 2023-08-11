@@ -10,7 +10,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'run-me-every-ten-seconds': {
         'task': 'api.tasks.send_posts',
-        'schedule': 10
+        'schedule': 86400
     },
 }
 app.conf.timezone = 'UTC'

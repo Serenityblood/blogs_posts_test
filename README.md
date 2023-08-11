@@ -60,7 +60,10 @@ Header - Bearer
     'text': string
 }
 ```
-4. http://127.0.0.1:8000/api/blogs/{id}
+4. http://127.0.0.1:8000/api/posts/{id}/read/
+Пометить пост как прочитанный
+
+4. http://127.0.0.1:8000/api/blogs/{id}/subscribe/
 Подписаться на блог с {id}
 
 3. http://127.0.0.1:8000/api/users/postsfeed/
