@@ -1,0 +1,64 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/dat
+    env_file:
+      - ./.env
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command:
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./api_blogs:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+
+  celery_beat:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: celery -A api_blogs beat -l info &&
+    volumes:
+      - ./api_blogs:/usr/src/app
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+      - redis
+      - db
+
+  celery_worker:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: celery -A api_blogs worker -l info
+    volumes:
+      - ./api_blogs:/usr/src/app
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+      - redis
+      - db
+
+
+  redis:
+    image: redis:5-alpine
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
