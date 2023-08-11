@@ -10,6 +10,9 @@ Django, DRF, PostgreSQL, Celery, Redis, Docker
 
 1. В корневой папке проекта:
 ```
+Создать .env файл по примеру env.example
+```
+```
 docker-compose up -d --build
 ```
 2. Создать суперюзера(обязательно для дальнейшего шага)
@@ -23,8 +26,8 @@ docker-compose exec web python manage.py add_data
 
 ## Эндпоинты:
 1. http://127.0.0.1:8000/api/users/
->Регистрация
-Request sample:
+Регистрация
+>Request sample:
 ```
 {
     'username': string,
@@ -32,15 +35,15 @@ Request sample:
 }
 ```
 2. http://127.0.0.1:8000/auth/jwt/create/
->Получение токена
-Request sample:
+Получение токена
+>Request sample:
 ```
 {
     'username': string,
     'password': string
 }
 ```
-Response sample:
+>Response sample:
 ```
 {
     'resfresh': token,
@@ -49,8 +52,8 @@ Response sample:
 ```
 Header - Bearer
 3. http://127.0.0.1:8000/api/posts/
-> Получение, создание постов
-Request sample:
+Получение, создание постов
+>Request sample:
 ```
 {
     'title': string,
@@ -58,7 +61,7 @@ Request sample:
 }
 ```
 4. http://127.0.0.1:8000/api/blogs/{id}
->Подписаться на блог с {id}
+Подписаться на блог с {id}
 
 3. http://127.0.0.1:8000/api/users/postsfeed/
->Генерация ленты постов на основе подписок пользователя с пагинацией по 10 постов
+Генерация ленты постов на основе подписок пользователя с пагинацией по 10 постов
